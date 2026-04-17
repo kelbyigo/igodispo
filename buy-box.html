@@ -878,12 +878,11 @@ document.getElementById('buyBoxForm').addEventListener('submit', async (e) => {
         fd.append('buy_box_pdf', uploadedFile, uploadedFile.name);
         await fetch(GHL_WEBHOOK_URL, { method: 'POST', body: fd, mode: 'no-cors' });
       } else {
-        await fetch(GHL_WEBHOOK_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data),
-          mode: 'no-cors'
+        const fd = new FormData();
+        Object.entries(data).forEach(([k, v]) => {
+          fd.append(k, v == null ? '' : (typeof v === 'object' ? JSON.stringify(v) : v));
         });
+        await fetch(GHL_WEBHOOK_URL, { method: 'POST', body: fd, mode: 'no-cors' });
       }
     }
     document.getElementById('buyBoxForm').style.display = 'none';
