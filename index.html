@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>K&A Creative Investments</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0a0a0a;
+    --text: #e8e8e8;
+    --text-muted: #777;
+    --accent: #9AE600;
+    --accent-soft: rgba(154, 230, 0, 0.1);
+  }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    line-height: 1.6;
+  }
+  .hero { max-width: 560px; text-align: center; }
+  .badge {
+    display: inline-block;
+    padding: 6px 14px;
+    background: var(--accent-soft);
+    border: 1px solid var(--accent);
+    border-radius: 100px;
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  h1 {
+    font-size: 44px;
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 20px;
+    letter-spacing: -0.5px;
+  }
+  h1 span { color: var(--accent); }
+  p {
+    color: var(--text-muted);
+    font-size: 17px;
+    margin-bottom: 36px;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .cta {
+    display: inline-block;
+    padding: 16px 36px;
+    background: var(--accent);
+    color: #000;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    transition: all 0.2s;
+  }
+  .cta:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(154, 230, 0, 0.25);
+    background: #a8f010;
+  }
+  .foot {
+    margin-top: 48px;
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+  @media (max-width: 520px) {
+    h1 { font-size: 34px; }
+    p { font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+  <div class="hero">
+    <div class="badge">Off-Market Deals</div>
+    <h1>Deals that match <span>your</span> buy box.</h1>
+    <p>We work with serious investors nationwide. Submit your buy box and we'll match you with properties that fit your criteria.</p>
+    <a href="/buy-box" class="cta">Submit Your Buy Box →</a>
+    <div class="foot">K&amp;A Creative Investments</div>
+  </div>
+</body>
+</html>
