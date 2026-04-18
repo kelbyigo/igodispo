@@ -33,29 +33,16 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 
 /* HERO */
 .hero { min-height: 100vh; display: flex; align-items: center; padding-top: 100px; padding-bottom: 80px; }
-.hero-inner { max-width: 720px; }
+.hero-split { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto auto; column-gap: 80px; row-gap: 48px; width: 100%; }
+.hero-col-text { }
+.hero-col-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.hero-col-btns .btn { justify-content: center; }
 .hero-badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; background: var(--accent-soft); border: 1px solid rgba(154,230,0,0.3); border-radius: 100px; color: var(--accent); font-size: 12px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 32px; }
-.hero h1 { font-size: clamp(40px,6vw,68px); font-weight: 700; line-height: 1.1; letter-spacing: -1.5px; margin-bottom: 24px; }
+.hero h1, .hero-h2 { font-size: clamp(40px,6vw,68px); font-weight: 700; line-height: 1.1; letter-spacing: -1.5px; margin-bottom: 24px; }
 .hero h1 span { color: var(--accent); }
-.hero-sub { font-size: 19px; color: var(--text-muted); max-width: 580px; margin-bottom: 40px; line-height: 1.65; }
-.hero-ctas { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 40px; max-width: 480px; }
-.hero-ctas .btn { justify-content: center; width: 100%; padding: 14px 0; }
-.trust-row { display: flex; gap: 40px; flex-wrap: wrap; }
-.trust-item { display: flex; flex-direction: column; }
-.stat-number { font-size: 26px; font-weight: 700; color: var(--text); letter-spacing: -0.5px; }
-.trust-label { font-size: 12px; color: var(--text-muted); font-weight: 500; letter-spacing: 0.5px; }
-
-/* HERO SPLIT */
-.hero-split { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto auto; gap: 40px 80px; align-items: end; width: 100%; }
-.hero-content { grid-column: 1; grid-row: 1; }
-.investor-content { grid-column: 2; grid-row: 1; }
-.hero-ctas { grid-column: 1; grid-row: 2; }
-.investor-cta-wrap { grid-column: 2; grid-row: 2; }
-.investor-label { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; background: var(--accent-soft); border: 1px solid rgba(154,230,0,0.3); border-radius: 100px; color: var(--accent); font-size: 12px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 32px; }
-.investor-heading { font-size: clamp(40px,6vw,68px); font-weight: 700; line-height: 1.1; letter-spacing: -1.5px; margin-bottom: 24px; }
-.investor-sub { font-size: 19px; color: var(--text-muted); margin-bottom: 40px; line-height: 1.65; }
+.hero-sub { font-size: 19px; color: var(--text-muted); line-height: 1.65; }
 @media (max-width: 768px) {
-  .hero-split { grid-template-columns: 1fr; gap: 56px; }
+  .hero-split { grid-template-columns: 1fr; row-gap: 40px; }
 }
 
 /* PROBLEM */
@@ -189,23 +176,32 @@ footer { border-top: 1px solid var(--border); padding: 48px 0; }
 <section class="hero section" id="hero" aria-labelledby="hero-heading">
   <div class="container" style="max-width:1100px;">
     <div class="hero-split">
-      <div class="hero-content">
+
+      <!-- Row 1, Left: text -->
+      <div class="hero-col-text">
         <div class="hero-badge">● JV Partner Program</div>
         <h1 id="hero-heading">Got a deal?<br>We have the <span>buyer.</span></h1>
         <p class="hero-sub">We connect wholesalers, agents, and dispo teams to our nationwide buyer network. You source. We move. You get paid.</p>
       </div>
-      <div class="investor-content">
-        <div class="investor-label">● Buyer Network</div>
-        <h2 class="investor-heading">Investor? Join our network of buyers.</h2>
-        <p class="investor-sub">Tell us what you're buying — market, property type, price range — and we'll bring deals directly to you.</p>
+
+      <!-- Row 1, Right: text -->
+      <div class="hero-col-text">
+        <div class="hero-badge">● Buyer Network</div>
+        <h2 class="hero-h2">Investor? Join our network of buyers.</h2>
+        <p class="hero-sub">Tell us what you're buying — market, property type, price range — and we'll bring deals directly to you.</p>
       </div>
-      <div class="hero-ctas">
+
+      <!-- Row 2, Left: buttons -->
+      <div class="hero-col-btns">
         <a href="/submit-deal" class="btn btn-primary">Submit a Deal →</a>
         <a href="#how-it-works" class="btn btn-ghost">How It Works</a>
       </div>
-      <div class="investor-cta-wrap">
-        <a href="/buy-box" class="btn btn-primary" style="width:100%;justify-content:center;">Submit Your Buy Box →</a>
+
+      <!-- Row 2, Right: button -->
+      <div class="hero-col-btns">
+        <a href="/buy-box" class="btn btn-primary">Submit Your Buy Box →</a>
       </div>
+
     </div>
   </div>
 </section>
