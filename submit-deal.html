@@ -126,7 +126,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba
     </div>
 
     <!-- DEAL FORM -->
-    <form class="form-card" id="deal-form" action="mailto:amanda@igodispo.com" method="post" enctype="text/plain" novalidate>
+    <form class="form-card" id="deal-form" novalidate>
 
       <!-- ── SECTION 1: YOUR INFO ── -->
       <div class="form-section">
@@ -343,6 +343,8 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba
 </div>
 
 <script>
+const WEBHOOK_URL = 'https://services.leadconnectorhq.com/hooks/yGCm8W0vee769HntgYqg/webhook-trigger/1fbe9ca2-13a3-433e-8ac5-2e3fe9ad6df0';
+
 const contractSelect = document.getElementById('f_contract');
 const contractFields = document.getElementById('contract-fields');
 
@@ -367,8 +369,27 @@ function validate(form) {
   return true;
 }
 
-document.getElementById('deal-form').addEventListener('submit', (e) => {
-  if (!validate(e.target)) e.preventDefault();
+document.getElementById('deal-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  if (!validate(e.target)) return;
+
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+
+  const fd = new FormData(e.target);
+  if (!contractSelect.value.startsWith('Yes')) {
+    fd.delete('emd_amount');
+    fd.delete('contract_expiration');
+  }
+
+  try {
+    await fetch(WEBHOOK_URL, { method: 'POST', body: fd, mode: 'no-cors' });
+  } catch (_) {}
+
+  document.getElementById('deal-form').style.display = 'none';
+  document.getElementById('success-state').classList.add('visible');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 </script>
 </body>
