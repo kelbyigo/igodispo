@@ -46,9 +46,11 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .trust-label { font-size: 12px; color: var(--text-muted); font-weight: 500; letter-spacing: 0.5px; }
 
 /* HERO SPLIT */
-.hero-split { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: stretch; width: 100%; }
-.hero-inner, .investor-panel { display: flex; flex-direction: column; }
-.hero-ctas, .investor-cta { margin-top: auto; }
+.hero-split { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto auto; gap: 40px 80px; align-items: end; width: 100%; }
+.hero-content { grid-column: 1; grid-row: 1; }
+.investor-content { grid-column: 2; grid-row: 1; }
+.hero-ctas { grid-column: 1; grid-row: 2; }
+.investor-cta-wrap { grid-column: 2; grid-row: 2; }
 .investor-label { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; background: var(--accent-soft); border: 1px solid rgba(154,230,0,0.3); border-radius: 100px; color: var(--accent); font-size: 12px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 32px; }
 .investor-heading { font-size: clamp(40px,6vw,68px); font-weight: 700; line-height: 1.1; letter-spacing: -1.5px; margin-bottom: 24px; }
 .investor-sub { font-size: 19px; color: var(--text-muted); margin-bottom: 40px; line-height: 1.65; }
@@ -187,20 +189,22 @@ footer { border-top: 1px solid var(--border); padding: 48px 0; }
 <section class="hero section" id="hero" aria-labelledby="hero-heading">
   <div class="container" style="max-width:1100px;">
     <div class="hero-split">
-      <div class="hero-inner">
+      <div class="hero-content">
         <div class="hero-badge">● JV Partner Program</div>
         <h1 id="hero-heading">Got a deal?<br>We have the <span>buyer.</span></h1>
         <p class="hero-sub">We connect wholesalers, agents, and dispo teams to our nationwide buyer network. You source. We move. You get paid.</p>
-        <div class="hero-ctas">
-          <a href="/submit-deal" class="btn btn-primary">Submit a Deal →</a>
-          <a href="#how-it-works" class="btn btn-ghost">How It Works</a>
-        </div>
       </div>
-      <div class="investor-panel">
+      <div class="investor-content">
         <div class="investor-label">● Buyer Network</div>
         <h2 class="investor-heading">Investor? Join our network of buyers.</h2>
         <p class="investor-sub">Tell us what you're buying — market, property type, price range — and we'll bring deals directly to you.</p>
-        <a href="/buy-box" class="btn btn-primary investor-cta">Submit Your Buy Box →</a>
+      </div>
+      <div class="hero-ctas">
+        <a href="/submit-deal" class="btn btn-primary">Submit a Deal →</a>
+        <a href="#how-it-works" class="btn btn-ghost">How It Works</a>
+      </div>
+      <div class="investor-cta-wrap">
+        <a href="/buy-box" class="btn btn-primary" style="width:100%;justify-content:center;">Submit Your Buy Box →</a>
       </div>
     </div>
   </div>
