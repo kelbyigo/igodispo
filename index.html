@@ -32,8 +32,8 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 20px 0;
 nav.scrolled { background: rgba(10,10,10,0.95); backdrop-filter: blur(12px); padding: 14px 0; border-bottom: 1px solid var(--border); }
 .nav-inner { display: flex; align-items: center; justify-content: space-between; }
 .nav-logo { font-size: 16px; font-weight: 700; color: var(--text); text-decoration: none; letter-spacing: -0.3px; }
-.nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
-.nav-links a { color: var(--text-muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+.nav-links { display: flex; align-items: center; gap: 28px; list-style: none; flex-wrap: wrap; }
+.nav-links a { color: var(--text-muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; white-space: nowrap; }
 .nav-links a:hover { color: var(--text); }
 .nav-cta { padding: 10px 20px !important; background: var(--accent) !important; color: #000 !important; border-radius: var(--radius-sm); font-weight: 700 !important; }
 .nav-cta:hover { background: #a8f010 !important; color: #000 !important; }
@@ -140,7 +140,7 @@ footer { border-top: 1px solid var(--border); padding: 48px 0; }
   .footer-nav { flex-direction: row; flex-wrap: wrap; justify-content: center; }
   .footer-copy { text-align: center; }
   .footer-tagline { max-width: 100%; }
-  .nav-links { display: flex; flex-wrap: wrap; gap: 16px; }
+  .nav-links { gap: 16px; } .nav-links a { font-size: 12px; }
 
 
 
@@ -165,15 +165,9 @@ footer { border-top: 1px solid var(--border); padding: 48px 0; }
       <li><a href="#how-it-works">How It Works</a></li>
       <li><a href="#what-we-buy">What We Buy</a></li>
       <li><a href="#faq">FAQ</a></li>
+      <li><a href="/buy-box">Buyer Buy Box</a></li>
       <li><a href="#submit" class="nav-cta">Submit a Deal</a></li>
     </ul>
-    <button class="nav-mobile-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
-      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
-        <rect y="4" width="22" height="2" rx="1" fill="currentColor"/>
-        <rect y="10" width="22" height="2" rx="1" fill="currentColor"/>
-        <rect y="16" width="22" height="2" rx="1" fill="currentColor"/>
-      </svg>
-    </button>
   </div>
 </nav>
 
@@ -418,16 +412,7 @@ footer { border-top: 1px solid var(--border); padding: 48px 0; }
   const nav = document.getElementById('main-nav');
   window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 60); }, { passive: true });
 
-  const toggle = document.getElementById('nav-toggle');
-  const links = document.getElementById('nav-links');
-  toggle.addEventListener('click', () => {
-    const open = links.classList.toggle('open');
-    toggle.setAttribute('aria-expanded', open);
-  });
-  links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-    links.classList.remove('open');
-    toggle.setAttribute('aria-expanded', false);
-  }));
+
 </script>
 </body>
 </html>
