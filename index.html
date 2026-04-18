@@ -45,13 +45,13 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .trust-label { font-size: 12px; color: var(--text-muted); font-weight: 500; letter-spacing: 0.5px; }
 
 /* HERO SPLIT */
-.hero-split { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; width: 100%; }
-.investor-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 40px; }
-.investor-label { font-size: 11px; text-transform: uppercase; letter-spacing: 3px; color: var(--accent); font-weight: 600; margin-bottom: 12px; }
-.investor-heading { font-size: 24px; font-weight: 700; letter-spacing: -0.3px; margin-bottom: 12px; line-height: 1.25; }
-.investor-sub { color: var(--text-muted); font-size: 15px; margin-bottom: 28px; line-height: 1.65; }
+.hero-split { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; width: 100%; }
+.investor-panel { }
+.investor-label { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; background: var(--accent-soft); border: 1px solid rgba(154,230,0,0.3); border-radius: 100px; color: var(--accent); font-size: 12px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 32px; }
+.investor-heading { font-size: clamp(32px,4vw,52px); font-weight: 700; line-height: 1.1; letter-spacing: -1.5px; margin-bottom: 24px; }
+.investor-sub { font-size: 19px; color: var(--text-muted); margin-bottom: 40px; line-height: 1.65; }
 @media (max-width: 768px) {
-  .hero-split { grid-template-columns: 1fr; gap: 40px; }
+  .hero-split { grid-template-columns: 1fr; gap: 56px; }
 }
 
 /* PROBLEM */
@@ -194,9 +194,9 @@ footer { border-top: 1px solid var(--border); padding: 48px 0; }
           <a href="#how-it-works" class="btn btn-ghost">How It Works</a>
         </div>
       </div>
-      <div class="investor-card">
-        <p class="investor-label">Investor?</p>
-        <h2 class="investor-heading">Join our network of buyers.</h2>
+      <div class="investor-panel">
+        <div class="investor-label">● Buyer Network</div>
+        <h2 class="investor-heading">Investor? Join our network of buyers.</h2>
         <p class="investor-sub">Tell us what you're buying — market, property type, price range — and we'll bring deals directly to you.</p>
         <a href="/buy-box" class="btn btn-primary">Submit Your Buy Box →</a>
       </div>
