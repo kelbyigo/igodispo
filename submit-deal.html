@@ -14,7 +14,7 @@
 }
 html { scroll-behavior: smooth; }
 body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.6; }
-.container { max-width: 680px; margin: 0 auto; padding: 0 24px; }
+.container { max-width: 720px; margin: 0 auto; padding: 0 24px; }
 
 /* NAV */
 nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10,10,10,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 14px 0; }
@@ -34,29 +34,51 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba
 .form-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 40px; }
 .section-label { font-size: 11px; text-transform: uppercase; letter-spacing: 2.5px; color: var(--accent); font-weight: 600; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
 .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.form-section { margin-bottom: 36px; }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .form-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+.form-field:last-child { margin-bottom: 0; }
 .form-field label { font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
-.form-field input, .form-field textarea {
+.form-field label .req { color: var(--accent); margin-left: 2px; }
+.form-field input,
+.form-field textarea,
+.form-field select {
   background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm);
   padding: 12px 16px; color: var(--text); font-size: 15px; font-family: inherit;
   transition: border-color 0.2s; width: 100%;
 }
-.form-field input:focus, .form-field textarea:focus { outline: none; border-color: var(--accent); }
+.form-field select {
+  appearance: none; -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23777' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 14px center; padding-right: 40px;
+}
+.form-field select option { background: #141414; color: var(--text); }
+.form-field input:focus, .form-field textarea:focus, .form-field select:focus { outline: none; border-color: var(--accent); }
 .form-field input::placeholder, .form-field textarea::placeholder { color: var(--text-muted); opacity: 0.6; }
-.form-field textarea { resize: vertical; min-height: 110px; }
-.form-divider { margin: 24px 0; }
+.form-field input.error, .form-field textarea.error, .form-field select.error { border-color: #ff4d4d; }
+.form-field textarea { resize: vertical; min-height: 100px; }
+.conditional-row { display: none; }
+.conditional-row.visible { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .submit-btn {
   width: 100%; padding: 16px; background: var(--accent); color: #000;
   font-size: 16px; font-weight: 700; font-family: inherit; border: none;
   border-radius: var(--radius-sm); cursor: pointer; transition: all 0.2s; margin-top: 8px;
 }
 .submit-btn:hover { background: #a8f010; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(154,230,0,0.25); }
+.submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
 .form-note { text-align: center; margin-top: 20px; font-size: 13px; color: var(--text-muted); }
 .form-note a { color: var(--accent); text-decoration: none; }
 
+/* SUCCESS */
+.success-state { display: none; text-align: center; padding: 80px 24px; }
+.success-state.visible { display: block; }
+.success-icon { margin-bottom: 24px; }
+.success-icon svg { width: 72px; height: 72px; }
+.success-state h2 { font-size: 32px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 12px; }
+.success-state p { color: var(--text-muted); font-size: 16px; max-width: 420px; margin: 0 auto; line-height: 1.65; }
+
 @media (max-width: 600px) {
-  .form-row { grid-template-columns: 1fr; }
+  .form-row, .conditional-row.visible { grid-template-columns: 1fr; }
   .form-card { padding: 24px 20px; }
   .page-header h1 { font-size: 28px; }
 }
@@ -83,64 +105,297 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba
 
 <div class="page-wrap">
   <div class="container">
+
     <div class="page-header">
       <div class="badge">Submit a Deal</div>
       <h1>Tell us about the property.</h1>
       <p>Fill this out and we'll come back within 48 hours with a yes or no.</p>
     </div>
 
-    <!-- REPLACE: swap action to GHL webhook URL when ready -->
-    <form class="form-card" action="mailto:amanda@igodispo.com" method="post" enctype="text/plain">
+    <!-- SUCCESS STATE -->
+    <div class="success-state" id="success-state" aria-live="polite">
+      <div class="success-icon">
+        <svg viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="36" cy="36" r="35" stroke="#9AE600" stroke-width="2" fill="rgba(154,230,0,0.08)"/>
+          <path d="M20 36l12 12 20-24" stroke="#9AE600" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h2>Deal received.</h2>
+      <p>We'll underwrite and get back to you within 48 hours. Check your email for a confirmation.</p>
+    </div>
 
-      <div class="section-label">Your Info</div>
-      <div class="form-row">
-        <div class="form-field">
-          <label for="f_first">First Name</label>
-          <input type="text" id="f_first" name="First Name" placeholder="John" required>
+    <!-- DEAL FORM -->
+    <form class="form-card" id="deal-form" novalidate>
+
+      <!-- ── SECTION 1: YOUR INFO ── -->
+      <div class="form-section">
+        <div class="section-label">Your Info</div>
+        <div class="form-row">
+          <div class="form-field">
+            <label for="f_first">First Name <span class="req">*</span></label>
+            <input type="text" id="f_first" name="first_name" placeholder="John" required autocomplete="given-name">
+          </div>
+          <div class="form-field">
+            <label for="f_last">Last Name <span class="req">*</span></label>
+            <input type="text" id="f_last" name="last_name" placeholder="Smith" required autocomplete="family-name">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label for="f_email">Email <span class="req">*</span></label>
+            <input type="email" id="f_email" name="email" placeholder="you@email.com" required autocomplete="email">
+          </div>
+          <div class="form-field">
+            <label for="f_phone">Phone <span class="req">*</span></label>
+            <input type="tel" id="f_phone" name="phone" placeholder="(555) 000-0000" required autocomplete="tel">
+          </div>
         </div>
         <div class="form-field">
-          <label for="f_last">Last Name</label>
-          <input type="text" id="f_last" name="Last Name" placeholder="Smith" required>
+          <label for="f_company">Company / Entity Name</label>
+          <input type="text" id="f_company" name="company" placeholder="ABC Investments LLC" autocomplete="organization">
         </div>
       </div>
-      <div class="form-row">
+
+      <!-- ── SECTION 2: THE PROPERTY ── -->
+      <div class="form-section">
+        <div class="section-label">The Property</div>
         <div class="form-field">
-          <label for="f_email">Email</label>
-          <input type="email" id="f_email" name="Email" placeholder="you@email.com" required>
+          <label for="f_address">Property Address <span class="req">*</span></label>
+          <input type="text" id="f_address" name="address" placeholder="123 Main St, City, State ZIP" required autocomplete="off">
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label for="f_beds">Beds</label>
+            <input type="number" id="f_beds" name="beds" placeholder="3" min="0" step="1">
+          </div>
+          <div class="form-field">
+            <label for="f_baths">Baths</label>
+            <input type="number" id="f_baths" name="baths" placeholder="2" min="0" step="0.5">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label for="f_sqft">Square Feet</label>
+            <input type="number" id="f_sqft" name="square_feet" placeholder="1450" min="0" step="1">
+          </div>
+          <div class="form-field">
+            <label for="f_year">Year Built</label>
+            <input type="number" id="f_year" name="year_built" placeholder="1995" min="1800" max="2026" step="1">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label for="f_occupancy">Occupancy <span class="req">*</span></label>
+            <select id="f_occupancy" name="occupancy" required>
+              <option value="" disabled selected>Select…</option>
+              <option>Vacant</option>
+              <option>Owner-occupied</option>
+              <option>Tenant-occupied</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label for="f_condition">Condition <span class="req">*</span></label>
+            <select id="f_condition" name="condition" required>
+              <option value="" disabled selected>Select…</option>
+              <option>Turnkey</option>
+              <option>Light rehab</option>
+              <option>Medium rehab</option>
+              <option>Heavy rehab</option>
+              <option>Teardown</option>
+            </select>
+          </div>
         </div>
         <div class="form-field">
-          <label for="f_phone">Phone</label>
-          <input type="tel" id="f_phone" name="Phone" placeholder="(555) 000-0000" required>
+          <label for="f_photos">Photos / Video Link</label>
+          <input type="text" id="f_photos" name="photos_link" placeholder="Dropbox, Google Drive, or listing URL">
         </div>
       </div>
 
-      <div class="form-divider">
+      <!-- ── SECTION 3: THE NUMBERS ── -->
+      <div class="form-section">
+        <div class="section-label">The Numbers</div>
+        <div class="form-row">
+          <div class="form-field">
+            <label for="f_price">Asking Price <span class="req">*</span></label>
+            <input type="text" id="f_price" name="asking_price" placeholder="$120,000" required>
+          </div>
+          <div class="form-field">
+            <label for="f_arv">ARV — After Repair Value <span class="req">*</span></label>
+            <input type="text" id="f_arv" name="arv" placeholder="$200,000" required>
+          </div>
+        </div>
+        <div class="form-field">
+          <label for="f_rehab">Estimated Rehab Cost <span class="req">*</span></label>
+          <input type="text" id="f_rehab" name="rehab_cost" placeholder="$25,000" required>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label for="f_mortgage">Current Mortgage Balance</label>
+            <input type="text" id="f_mortgage" name="mortgage_balance" placeholder="$0 if free and clear">
+          </div>
+          <div class="form-field">
+            <label for="f_rent">Monthly Rent</label>
+            <input type="text" id="f_rent" name="monthly_rent" placeholder="$0 if vacant">
+          </div>
+        </div>
+        <div class="form-field">
+          <label for="f_liens">Liens, Back Taxes, or HOA Issues?</label>
+          <textarea id="f_liens" name="liens_notes" style="min-height:80px;" placeholder="List any known liens, back taxes, or HOA issues. Type 'None' if clean."></textarea>
+        </div>
+      </div>
+
+      <!-- ── SECTION 4: THE DEAL ── -->
+      <div class="form-section">
         <div class="section-label">The Deal</div>
-      </div>
-      <div class="form-field">
-        <label for="f_address">Property Address</label>
-        <input type="text" id="f_address" name="Property Address" placeholder="123 Main St, City, State ZIP" required>
-      </div>
-      <div class="form-row">
-        <div class="form-field">
-          <label for="f_price">Asking Price</label>
-          <input type="text" id="f_price" name="Asking Price" placeholder="$120,000" required>
+        <div class="form-row">
+          <div class="form-field">
+            <label for="f_structure">Deal Structure <span class="req">*</span></label>
+            <select id="f_structure" name="deal_structure" required>
+              <option value="" disabled selected>Select…</option>
+              <option>Cash</option>
+              <option>Subject-To</option>
+              <option>Seller Finance</option>
+              <option>Novation</option>
+              <option>Wholesale Assignment</option>
+              <option>Not sure yet</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label for="f_situation">Seller Situation <span class="req">*</span></label>
+            <select id="f_situation" name="seller_situation" required>
+              <option value="" disabled selected>Select…</option>
+              <option>Pre-foreclosure</option>
+              <option>Inherited</option>
+              <option>Tired landlord</option>
+              <option>Divorce</option>
+              <option>Just wants out</option>
+              <option>Financial hardship</option>
+              <option>Other</option>
+            </select>
+          </div>
         </div>
-        <div class="form-field">
-          <label for="f_arv">ARV (After Repair Value)</label>
-          <input type="text" id="f_arv" name="ARV" placeholder="$200,000" required>
+        <div class="form-row">
+          <div class="form-field">
+            <label for="f_timeline">Seller's Timeline <span class="req">*</span></label>
+            <select id="f_timeline" name="seller_timeline" required>
+              <option value="" disabled selected>Select…</option>
+              <option>ASAP (under 2 weeks)</option>
+              <option>2–4 weeks</option>
+              <option>30–60 days</option>
+              <option>Flexible</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label for="f_contract">Signed Contract? <span class="req">*</span></label>
+            <select id="f_contract" name="contract_status" required>
+              <option value="" disabled selected>Select…</option>
+              <option value="Yes - direct">Yes — I'm the direct holder</option>
+              <option value="Yes - someone else">Yes — someone else is on it</option>
+              <option value="No">No — not yet</option>
+              <option value="In progress">In progress</option>
+            </select>
+          </div>
         </div>
-      </div>
-      <div class="form-field">
-        <label for="f_notes">Notes</label>
-        <textarea id="f_notes" name="Notes" placeholder="Condition, timeline, seller situation — anything that helps us move fast."></textarea>
+
+        <!-- shown only when contract = Yes -->
+        <div class="conditional-row" id="contract-fields">
+          <div class="form-field">
+            <label for="f_emd">EMD Amount</label>
+            <input type="text" id="f_emd" name="emd_amount" placeholder="$1,000">
+          </div>
+          <div class="form-field">
+            <label for="f_expiry">Contract Expiration</label>
+            <input type="date" id="f_expiry" name="contract_expiration">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-field">
+            <label for="f_fee">Your Expected Assignment Fee <span class="req">*</span></label>
+            <input type="text" id="f_fee" name="assignment_fee_ask" placeholder="$15,000" required>
+          </div>
+          <div class="form-field">
+            <label for="f_exclusive">Exclusive to us? <span class="req">*</span></label>
+            <select id="f_exclusive" name="exclusive" required>
+              <option value="" disabled selected>Select…</option>
+              <option value="Yes - exclusive">Yes — exclusive</option>
+              <option value="No - also shopping elsewhere">No — also shopping elsewhere</option>
+            </select>
+          </div>
+        </div>
       </div>
 
-      <button type="submit" class="submit-btn">Submit My Deal →</button>
+      <!-- ── SECTION 5: NOTES ── -->
+      <div class="form-section">
+        <div class="section-label">Notes</div>
+        <div class="form-field">
+          <label for="f_notes">Anything else we should know?</label>
+          <textarea id="f_notes" name="notes" placeholder="Condition, timeline, seller situation — anything that helps us move fast."></textarea>
+        </div>
+      </div>
+
+      <button type="submit" class="submit-btn" id="submit-btn">Submit My Deal →</button>
       <p class="form-note">Or reach us directly: <a href="tel:+19287568136">(928) 756-8136</a> · <a href="mailto:amanda@igodispo.com">amanda@igodispo.com</a></p>
+
     </form>
   </div>
 </div>
 
+<script>
+// REPLACE: swap to a dedicated GHL deal-submission webhook URL when ready
+const WEBHOOK_URL = 'https://services.leadconnectorhq.com/hooks/yGCm8W0vee769HntgYqg/webhook-trigger/77b534ee-d655-479f-ba58-d452aa3b56cd';
+
+const contractSelect = document.getElementById('f_contract');
+const contractFields = document.getElementById('contract-fields');
+
+contractSelect.addEventListener('change', () => {
+  const hasContract = contractSelect.value.startsWith('Yes');
+  contractFields.classList.toggle('visible', hasContract);
+});
+
+function validate(form) {
+  let firstError = null;
+  form.querySelectorAll('[required]').forEach(el => {
+    el.classList.remove('error');
+    if (!el.value.trim()) {
+      el.classList.add('error');
+      if (!firstError) firstError = el;
+    }
+  });
+  if (firstError) {
+    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    setTimeout(() => firstError.focus(), 400);
+    return false;
+  }
+  return true;
+}
+
+document.getElementById('deal-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  if (!validate(e.target)) return;
+
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+
+  const fd = new FormData(e.target);
+
+  // Strip conditional fields if no contract
+  if (!contractSelect.value.startsWith('Yes')) {
+    fd.delete('emd_amount');
+    fd.delete('contract_expiration');
+  }
+
+  try {
+    await fetch(WEBHOOK_URL, { method: 'POST', body: fd, mode: 'no-cors' });
+  } catch (_) {}
+
+  // no-cors means we can't read the response — always show success
+  document.getElementById('deal-form').style.display = 'none';
+  const s = document.getElementById('success-state');
+  s.classList.add('visible');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+</script>
 </body>
 </html>
