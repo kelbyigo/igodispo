@@ -153,7 +153,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba
         </div>
         <div class="form-field">
           <label for="f_company">Company / Entity Name</label>
-          <input type="text" id="f_company" name="company" placeholder="ABC Investments LLC" autocomplete="organization">
+          <input type="text" id="f_company" name="ds_company" placeholder="ABC Investments LLC" autocomplete="organization">
         </div>
       </div>
 
@@ -162,32 +162,32 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba
         <div class="section-label">The Property</div>
         <div class="form-field">
           <label for="f_address">Property Address <span class="req">*</span></label>
-          <input type="text" id="f_address" name="address" placeholder="123 Main St, City, State ZIP" required autocomplete="off">
+          <input type="text" id="f_address" name="ds_address" placeholder="123 Main St, City, State ZIP" required autocomplete="off">
         </div>
         <div class="form-row">
           <div class="form-field">
             <label for="f_beds">Beds</label>
-            <input type="number" id="f_beds" name="beds" placeholder="3" min="0" step="1">
+            <input type="number" id="f_beds" name="ds_beds" placeholder="3" min="0" step="1">
           </div>
           <div class="form-field">
             <label for="f_baths">Baths</label>
-            <input type="number" id="f_baths" name="baths" placeholder="2" min="0" step="0.5">
+            <input type="number" id="f_baths" name="ds_baths" placeholder="2" min="0" step="0.5">
           </div>
         </div>
         <div class="form-row">
           <div class="form-field">
             <label for="f_sqft">Square Feet</label>
-            <input type="number" id="f_sqft" name="square_feet" placeholder="1450" min="0" step="1">
+            <input type="number" id="f_sqft" name="ds_square_feet" placeholder="1450" min="0" step="1">
           </div>
           <div class="form-field">
             <label for="f_year">Year Built</label>
-            <input type="number" id="f_year" name="year_built" placeholder="1995" min="1800" max="2026" step="1">
+            <input type="number" id="f_year" name="ds_year_built" placeholder="1995" min="1800" max="2026" step="1">
           </div>
         </div>
         <div class="form-row">
           <div class="form-field">
             <label for="f_occupancy">Occupancy <span class="req">*</span></label>
-            <select id="f_occupancy" name="occupancy" required>
+            <select id="f_occupancy" name="ds_occupancy" required>
               <option value="" disabled selected>Select…</option>
               <option>Vacant</option>
               <option>Owner-occupied</option>
@@ -196,7 +196,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba
           </div>
           <div class="form-field">
             <label for="f_condition">Condition <span class="req">*</span></label>
-            <select id="f_condition" name="condition" required>
+            <select id="f_condition" name="ds_condition" required>
               <option value="" disabled selected>Select…</option>
               <option>Turnkey</option>
               <option>Light rehab</option>
@@ -208,7 +208,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba
         </div>
         <div class="form-field">
           <label for="f_photos">Photos / Video Link</label>
-          <input type="text" id="f_photos" name="photos_link" placeholder="Dropbox, Google Drive, or listing URL">
+          <input type="text" id="f_photos" name="ds_photos_link" placeholder="Dropbox, Google Drive, or listing URL">
         </div>
       </div>
 
@@ -218,30 +218,30 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba
         <div class="form-row">
           <div class="form-field">
             <label for="f_price">Asking Price <span class="req">*</span></label>
-            <input type="text" id="f_price" name="asking_price" placeholder="$120,000" required>
+            <input type="text" id="f_price" name="ds_asking_price" placeholder="$120,000" required>
           </div>
           <div class="form-field">
             <label for="f_arv">ARV — After Repair Value <span class="req">*</span></label>
-            <input type="text" id="f_arv" name="arv" placeholder="$200,000" required>
+            <input type="text" id="f_arv" name="ds_arv" placeholder="$200,000" required>
           </div>
         </div>
         <div class="form-field">
           <label for="f_rehab">Estimated Rehab Cost <span class="req">*</span></label>
-          <input type="text" id="f_rehab" name="rehab_cost" placeholder="$25,000" required>
+          <input type="text" id="f_rehab" name="ds_rehab_cost" placeholder="$25,000" required>
         </div>
         <div class="form-row">
           <div class="form-field">
             <label for="f_mortgage">Current Mortgage Balance</label>
-            <input type="text" id="f_mortgage" name="mortgage_balance" placeholder="$0 if free and clear">
+            <input type="text" id="f_mortgage" name="ds_mortgage_balance" placeholder="$0 if free and clear">
           </div>
           <div class="form-field">
             <label for="f_rent">Monthly Rent</label>
-            <input type="text" id="f_rent" name="monthly_rent" placeholder="$0 if vacant">
+            <input type="text" id="f_rent" name="ds_monthly_rent" placeholder="$0 if vacant">
           </div>
         </div>
         <div class="form-field">
           <label for="f_liens">Liens, Back Taxes, or HOA Issues?</label>
-          <textarea id="f_liens" name="liens_notes" style="min-height:80px;" placeholder="List any known liens, back taxes, or HOA issues. Type 'None' if clean."></textarea>
+          <textarea id="f_liens" name="ds_liens_notes" style="min-height:80px;" placeholder="List any known liens, back taxes, or HOA issues. Type 'None' if clean."></textarea>
         </div>
       </div>
 
@@ -251,7 +251,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba
         <div class="form-row">
           <div class="form-field">
             <label for="f_structure">Deal Structure <span class="req">*</span></label>
-            <select id="f_structure" name="deal_structure" required>
+            <select id="f_structure" name="ds_deal_structure" required>
               <option value="" disabled selected>Select…</option>
               <option>Cash</option>
               <option>Subject-To</option>
@@ -263,7 +263,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba
           </div>
           <div class="form-field">
             <label for="f_situation">Seller Situation <span class="req">*</span></label>
-            <select id="f_situation" name="seller_situation" required>
+            <select id="f_situation" name="ds_seller_situation" required>
               <option value="" disabled selected>Select…</option>
               <option>Pre-foreclosure</option>
               <option>Inherited</option>
@@ -278,7 +278,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba
         <div class="form-row">
           <div class="form-field">
             <label for="f_timeline">Seller's Timeline <span class="req">*</span></label>
-            <select id="f_timeline" name="seller_timeline" required>
+            <select id="f_timeline" name="ds_seller_timeline" required>
               <option value="" disabled selected>Select…</option>
               <option>ASAP (under 2 weeks)</option>
               <option>2–4 weeks</option>
@@ -288,7 +288,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba
           </div>
           <div class="form-field">
             <label for="f_contract">Signed Contract? <span class="req">*</span></label>
-            <select id="f_contract" name="contract_status" required>
+            <select id="f_contract" name="ds_contract_status" required>
               <option value="" disabled selected>Select…</option>
               <option value="Yes - direct">Yes — I'm the direct holder</option>
               <option value="Yes - someone else">Yes — someone else is on it</option>
@@ -302,22 +302,22 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba
         <div class="conditional-row" id="contract-fields">
           <div class="form-field">
             <label for="f_emd">EMD Amount</label>
-            <input type="text" id="f_emd" name="emd_amount" placeholder="$1,000">
+            <input type="text" id="f_emd" name="ds_emd_amount" placeholder="$1,000">
           </div>
           <div class="form-field">
             <label for="f_expiry">Contract Expiration</label>
-            <input type="date" id="f_expiry" name="contract_expiration">
+            <input type="date" id="f_expiry" name="ds_contract_expiration">
           </div>
         </div>
 
         <div class="form-row">
           <div class="form-field">
             <label for="f_fee">Your Expected Assignment Fee <span class="req">*</span></label>
-            <input type="text" id="f_fee" name="assignment_fee_ask" placeholder="$15,000" required>
+            <input type="text" id="f_fee" name="ds_assignment_fee_ask" placeholder="$15,000" required>
           </div>
           <div class="form-field">
             <label for="f_exclusive">Exclusive to us? <span class="req">*</span></label>
-            <select id="f_exclusive" name="exclusive" required>
+            <select id="f_exclusive" name="ds_exclusive" required>
               <option value="" disabled selected>Select…</option>
               <option value="Yes - exclusive">Yes — exclusive</option>
               <option value="No - also shopping elsewhere">No — also shopping elsewhere</option>
@@ -331,7 +331,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba
         <div class="section-label">Notes</div>
         <div class="form-field">
           <label for="f_notes">Anything else we should know?</label>
-          <textarea id="f_notes" name="notes" placeholder="Condition, timeline, seller situation — anything that helps us move fast."></textarea>
+          <textarea id="f_notes" name="ds_notes" placeholder="Condition, timeline, seller situation — anything that helps us move fast."></textarea>
         </div>
       </div>
 
@@ -379,8 +379,8 @@ document.getElementById('deal-form').addEventListener('submit', async (e) => {
 
   const fd = new FormData(e.target);
   if (!contractSelect.value.startsWith('Yes')) {
-    fd.delete('emd_amount');
-    fd.delete('contract_expiration');
+    fd.delete('ds_emd_amount');
+    fd.delete('ds_contract_expiration');
   }
 
   try {
