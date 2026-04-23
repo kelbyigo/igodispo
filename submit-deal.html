@@ -445,6 +445,28 @@ document.getElementById('deal-form').addEventListener('submit', async (e) => {
     fd.delete('ds_emd_amount');
     fd.delete('ds_contract_expiration');
     fd.delete('ds_contract_pdf');
+  } else {
+    const pdfFile = fd.get('ds_contract_pdf');
+    if (pdfFile && pdfFile.size > 0) {
+      try {
+        const uploadFd = new FormData();
+        uploadFd.append('file', pdfFile);
+        const uploadRes = await fetch('https://igodispo-upload.kelby.workers.dev/', {
+          method: 'POST',
+          body: uploadFd,
+        });
+        const uploadJson = await uploadRes.json();
+        if (uploadJson.url) {
+          fd.set('ds_contract_pdf', uploadJson.url);
+        } else {
+          fd.delete('ds_contract_pdf');
+        }
+      } catch (_) {
+        fd.delete('ds_contract_pdf');
+      }
+    } else {
+      fd.delete('ds_contract_pdf');
+    }
   }
 
   try {
