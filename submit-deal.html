@@ -344,6 +344,14 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba
 
         <div class="form-row">
           <div class="form-field">
+            <label for="f_escrow">Escrow Open? <span class="req">*</span></label>
+            <select id="f_escrow" name="ds_escrow_open" required>
+              <option value="" disabled selected>Select…</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+          </div>
+          <div class="form-field">
             <label for="f_fee">Your Expected Assignment Fee <span class="req">*</span></label>
             <input type="text" id="f_fee" name="ds_assignment_fee_ask" placeholder="$15,000" required>
           </div>
