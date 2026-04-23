@@ -342,6 +342,21 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba
           </div>
         </div>
 
+        <div class="form-field">
+          <label for="f_mortgage">Mortgage Statement (PDF or image)</label>
+          <label class="file-upload" id="mortgage-upload-label" for="f_mortgage">
+            <svg class="file-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <polyline points="14 2 14 8 20 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <div class="file-text">
+              <span class="file-title" id="mortgage-title">Click to upload file</span>
+              <span class="file-hint" id="mortgage-hint">Max 10 MB · PDF, JPEG, or PNG</span>
+            </div>
+            <input type="file" id="f_mortgage" name="ds_mortgage_statement" accept="application/pdf,.pdf,image/jpeg,image/png,.jpg,.jpeg,.png">
+          </label>
+        </div>
+
         <div class="form-row">
           <div class="form-field">
             <label for="f_escrow">Escrow Open? <span class="req">*</span></label>
@@ -415,6 +430,37 @@ contractPdf.addEventListener('change', () => {
   fileLabel.classList.add('has-file');
 });
 
+const mortgageInput = document.getElementById('f_mortgage');
+const mortgageTitle = document.getElementById('mortgage-title');
+const mortgageHint = document.getElementById('mortgage-hint');
+const mortgageLabel = document.getElementById('mortgage-upload-label');
+const ALLOWED_MORTGAGE_TYPES = ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'];
+
+mortgageInput.addEventListener('change', () => {
+  const file = mortgageInput.files[0];
+  if (!file) {
+    mortgageTitle.textContent = 'Click to upload file';
+    mortgageHint.textContent = 'Max 10 MB · PDF, JPEG, or PNG';
+    mortgageLabel.classList.remove('has-file');
+    return;
+  }
+  const name = file.name.toLowerCase();
+  const validExt = name.endsWith('.pdf') || name.endsWith('.jpg') || name.endsWith('.jpeg') || name.endsWith('.png');
+  if (!ALLOWED_MORTGAGE_TYPES.includes(file.type) && !validExt) {
+    alert('Please upload a PDF, JPEG, or PNG file.');
+    mortgageInput.value = '';
+    return;
+  }
+  if (file.size > MAX_PDF_BYTES) {
+    alert('File is too large. Max size is 10 MB.');
+    mortgageInput.value = '';
+    return;
+  }
+  mortgageTitle.textContent = file.name;
+  mortgageHint.textContent = (file.size / (1024 * 1024)).toFixed(2) + ' MB · Ready to submit';
+  mortgageLabel.classList.add('has-file');
+});
+
 function validate(form) {
   let firstError = null;
   form.querySelectorAll('[required]').forEach(el => {
@@ -467,6 +513,28 @@ document.getElementById('deal-form').addEventListener('submit', async (e) => {
     } else {
       fd.delete('ds_contract_pdf');
     }
+  }
+
+  const mortgageFile = fd.get('ds_mortgage_statement');
+  if (mortgageFile && mortgageFile.size > 0) {
+    try {
+      const uploadFd = new FormData();
+      uploadFd.append('file', mortgageFile);
+      const uploadRes = await fetch('https://igodispo-upload.kelby.workers.dev/', {
+        method: 'POST',
+        body: uploadFd,
+      });
+      const uploadJson = await uploadRes.json();
+      if (uploadJson.url) {
+        fd.set('ds_mortgage_statement', uploadJson.url);
+      } else {
+        fd.delete('ds_mortgage_statement');
+      }
+    } catch (_) {
+      fd.delete('ds_mortgage_statement');
+    }
+  } else {
+    fd.delete('ds_mortgage_statement');
   }
 
   try {
