@@ -60,6 +60,20 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba
 .form-field textarea { resize: vertical; min-height: 100px; }
 .conditional-row { display: none; }
 .conditional-row.visible { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.conditional-block { display: none; }
+.conditional-block.visible { display: block; margin-top: 16px; }
+.file-upload {
+  position: relative; display: flex; align-items: center; gap: 12px;
+  background: var(--bg); border: 1px dashed var(--border); border-radius: var(--radius-sm);
+  padding: 14px 16px; cursor: pointer; transition: border-color 0.2s;
+}
+.file-upload:hover { border-color: var(--accent); }
+.file-upload input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+.file-upload .file-icon { color: var(--accent); flex-shrink: 0; }
+.file-upload .file-text { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; }
+.file-upload .file-title { font-size: 14px; font-weight: 500; color: var(--text); }
+.file-upload .file-hint { font-size: 12px; color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.file-upload.has-file { border-style: solid; border-color: var(--accent); }
 .submit-btn {
   width: 100%; padding: 16px; background: var(--accent); color: #000;
   font-size: 16px; font-weight: 700; font-family: inherit; border: none;
@@ -310,6 +324,24 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba
           </div>
         </div>
 
+        <!-- shown only when contract = Yes -->
+        <div class="conditional-block" id="contract-upload">
+          <div class="form-field">
+            <label for="f_contract_pdf">Upload Signed Contract (PDF)</label>
+            <label class="file-upload" id="file-upload-label" for="f_contract_pdf">
+              <svg class="file-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <polyline points="14 2 14 8 20 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <div class="file-text">
+                <span class="file-title" id="file-title">Click to upload PDF</span>
+                <span class="file-hint" id="file-hint">Max 10 MB · PDF only</span>
+              </div>
+              <input type="file" id="f_contract_pdf" name="ds_contract_pdf" accept="application/pdf,.pdf">
+            </label>
+          </div>
+        </div>
+
         <div class="form-row">
           <div class="form-field">
             <label for="f_fee">Your Expected Assignment Fee <span class="req">*</span></label>
@@ -347,9 +379,40 @@ const WEBHOOK_URL = 'https://services.leadconnectorhq.com/hooks/yGCm8W0vee769Hnt
 
 const contractSelect = document.getElementById('f_contract');
 const contractFields = document.getElementById('contract-fields');
+const contractUpload = document.getElementById('contract-upload');
+const contractPdf = document.getElementById('f_contract_pdf');
+const fileTitle = document.getElementById('file-title');
+const fileHint = document.getElementById('file-hint');
+const fileLabel = document.getElementById('file-upload-label');
+const MAX_PDF_BYTES = 10 * 1024 * 1024;
 
 contractSelect.addEventListener('change', () => {
-  contractFields.classList.toggle('visible', contractSelect.value.startsWith('Yes'));
+  const isYes = contractSelect.value.startsWith('Yes');
+  contractFields.classList.toggle('visible', isYes);
+  contractUpload.classList.toggle('visible', isYes);
+});
+
+contractPdf.addEventListener('change', () => {
+  const file = contractPdf.files[0];
+  if (!file) {
+    fileTitle.textContent = 'Click to upload PDF';
+    fileHint.textContent = 'Max 10 MB · PDF only';
+    fileLabel.classList.remove('has-file');
+    return;
+  }
+  if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
+    alert('Please upload a PDF file.');
+    contractPdf.value = '';
+    return;
+  }
+  if (file.size > MAX_PDF_BYTES) {
+    alert('File is too large. Max size is 10 MB.');
+    contractPdf.value = '';
+    return;
+  }
+  fileTitle.textContent = file.name;
+  fileHint.textContent = (file.size / (1024 * 1024)).toFixed(2) + ' MB · Ready to submit';
+  fileLabel.classList.add('has-file');
 });
 
 function validate(form) {
@@ -381,6 +444,7 @@ document.getElementById('deal-form').addEventListener('submit', async (e) => {
   if (!contractSelect.value.startsWith('Yes')) {
     fd.delete('ds_emd_amount');
     fd.delete('ds_contract_expiration');
+    fd.delete('ds_contract_pdf');
   }
 
   try {
