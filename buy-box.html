@@ -884,6 +884,7 @@ document.getElementById('buyBoxForm').addEventListener('submit', async (e) => {
     data.property_types = Array.from(document.getElementById('propertyChips')._selectedSet);
     const priceSet = document.getElementById('priceChips')._selectedSet;
     data.price_buckets = Array.from(priceSet);
+    data.price_range = Array.from(priceSet).join(', ');
     data.no_budget_cap = priceSet.has("No budget cap");
     if (priceSet.size === 0) {
       alert('Please select at least one price range (or "No budget cap").');
