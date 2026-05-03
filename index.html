@@ -100,6 +100,17 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .split-bullets li { display: flex; align-items: center; gap: 12px; font-size: 15px; color: var(--text-muted); }
 .split-bullets li::before { content: '✓'; color: var(--accent); font-weight: 700; flex-shrink: 0; }
 
+/* ABOUT */
+.about { background: var(--surface); }
+.about-card { max-width: 760px; margin: 0 auto; }
+.about-name { font-size: 13px; text-transform: uppercase; letter-spacing: 3px; color: var(--accent); font-weight: 700; margin-bottom: 16px; text-align: center; }
+.about-card h2 { font-size: clamp(28px, 4vw, 44px); font-weight: 700; letter-spacing: -1px; line-height: 1.15; margin-bottom: 32px; text-align: center; }
+.about-card h2 span { color: var(--accent); }
+.about-body { color: var(--text-muted); font-size: 17px; line-height: 1.75; }
+.about-body p { margin-bottom: 18px; }
+.about-body p:last-child { margin-bottom: 0; }
+.about-body strong { color: var(--text); font-weight: 600; }
+
 /* FAQ */
 .faq-list { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 2px; }
 details { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: border-color 0.2s; margin-bottom: 4px; }
@@ -343,6 +354,23 @@ footer { border-top: 1px solid var(--border); padding: 48px 0; }
         <li>No monthly fees, no long-term contracts</li>
         <li>You get paid at close, wired same day</li>
       </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="section about" id="about" aria-labelledby="about-heading">
+  <div class="container">
+    <div class="about-card">
+      <p class="about-name">About Igo Dispo</p>
+      <h2 id="about-heading">I'm Amanda Igo — the face and heart behind <span>Igo Dispo</span>.</h2>
+      <div class="about-body">
+        <p>After years of witnessing the same pain points on both sides of the table — wholesalers who couldn't find serious buyers, who kept losing deals… and money, and buyers frustrated receiving deals that never matched their criteria — I built Igo Dispo to help both sides.</p>
+        <p>I JV and partner with wholesalers to help move their deals and ensure they get paid, and work directly with buyers to ensure every opportunity I send actually fits their buy box. <strong>No wasted time, just the right deals getting to the right people.</strong></p>
+        <p>I'm well-versed in cash and creative structures, including subto, seller finance / seller carry-backs, hybrid deals, and Morbys. So when a deal needs a little more nuance or a deeper conversation, I'm comfortable having it.</p>
+        <p>Honesty, transparency, integrity, and communication are the most important aspects in this business — and I hold myself to a high standard on all fronts.</p>
+        <p><strong>I help both sides win. Let's work together.</strong></p>
+      </div>
     </div>
   </div>
 </section>
