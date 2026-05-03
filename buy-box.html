@@ -529,9 +529,10 @@
         <label>What states do you buy in? <span class="req">*</span></label>
         <div class="multi-select-wrapper" id="stateWrapper"></div>
       </div>
-      <div class="field-group" id="cityFieldGroup" style="display:none;">
+      <div class="field-group" id="cityFieldGroup">
         <label>What cities do you buy in? <span class="req">*</span></label>
         <div class="multi-select-wrapper" id="cityWrapper"></div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:6px;">Pick "All" or "Major metros" for state-wide coverage, or select states above to see specific cities.</div>
       </div>
       <div class="field-group">
         <label>Zip codes <span class="opt">(optional — type and press Enter)</span></label>
@@ -702,7 +703,16 @@ function createMultiSelect(wrapperId, options, placeholder, onChange) {
   wrapper.appendChild(dropdown);
   render();
 
-  return { getSelected: () => Array.from(selected) };
+  return {
+    getSelected: () => Array.from(selected),
+    setSelected: (val) => {
+      if (options.includes(val) && !selected.has(val)) {
+        selected.add(val);
+        render();
+        if (onChange) onChange(Array.from(selected));
+      }
+    }
+  };
 }
 
 // ── States ──
@@ -715,20 +725,26 @@ const CITY_PRESETS = [
   "See notes below (please copy and paste all information below in the notes section)"
 ];
 
+function rebuildCitySelect(selectedStates) {
+  const cities = [...CITY_PRESETS];
+  selectedStates.slice().sort().forEach(st => {
+    if (stateCities[st]) stateCities[st].forEach(c => cities.push(c + ' (' + st + ')'));
+  });
+  const previouslySelected = citySelect ? citySelect.getSelected() : [];
+  document.getElementById('cityWrapper').innerHTML = '';
+  citySelect = createMultiSelect('cityWrapper', cities, 'Select cities or "All"...', null);
+  // Re-apply any selections that are still valid
+  previouslySelected.forEach(c => {
+    if (cities.includes(c)) citySelect.setSelected(c);
+  });
+}
+
 const stateSelect = createMultiSelect('stateWrapper', allStates, 'Select states...', (selectedStates) => {
-  const cityGroup = document.getElementById('cityFieldGroup');
-  if (selectedStates.length > 0) {
-    cityGroup.style.display = 'block';
-    const cities = [...CITY_PRESETS];
-    selectedStates.sort().forEach(st => {
-      if (stateCities[st]) stateCities[st].forEach(c => cities.push(c + ' (' + st + ')'));
-    });
-    document.getElementById('cityWrapper').innerHTML = '';
-    citySelect = createMultiSelect('cityWrapper', cities, 'Select cities...', null);
-  } else {
-    cityGroup.style.display = 'none';
-  }
+  rebuildCitySelect(selectedStates);
 });
+
+// Initialize city dropdown with presets so it's available before any state is picked
+rebuildCitySelect([]);
 
 // ── Chips ──
 const chipData = {
